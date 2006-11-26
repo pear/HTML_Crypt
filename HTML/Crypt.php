@@ -28,10 +28,15 @@
  * addresses from your site, included is a method to add mailto
  * links to the text being generated.
  *
- *  a basic example to encrypt an email address
- *  $c = new HTML_Crypt('yourname@emailaddress.com', 8);
- *  $c->addMailTo();
- *  $c->output();
+ * The "encryption" function is basically works like ROT13,
+ * with the difference that the $offset setting replaces the 13.
+ * It is also limited to ASCII characters between 32 and 127 (included).
+ * Other characters will not be encrypted.
+ *
+ * a basic example to encrypt an email address
+ * $c = new HTML_Crypt('yourname@emailaddress.com', 8);
+ * $c->addMailTo();
+ * $c->output();
  *
  * @author  Michael Dransfield <mike@blueroot.net>
  * @package HTML_Crypt
