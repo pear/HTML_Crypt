@@ -1,4 +1,4 @@
-<?php 
+<?php
 //
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
@@ -20,15 +20,15 @@
 
 
 /**
- * PEAR::HTML_Crypt
+ * HTML_Crypt
  *
- * The PEAR::HTML_Crypt provides methods to encrypt text, which 
+ * HTML_Crypt provides methods to encrypt text, which
  * can be later be decrypted using JavaScript on the client side
  *
  * This is very useful to prevent spam robots collecting email
- * addresses from your site, included is a method to add mailto 
+ * addresses from your site, included is a method to add mailto
  * links to the text being generated
- * 
+ *
  *  a basic example to encrypt an email address
  *  $c = new HTML_Crypt('yourname@emailaddress.com', 8);
  *  $c->addMailTo();
@@ -49,8 +49,8 @@ class HTML_Crypt
      * @var    string
      * @see    setText()
      */
-     var $text = '';
-     
+    var $text = '';
+
     /**
      * The full javascript to be sent to the browser
      *
@@ -58,9 +58,9 @@ class HTML_Crypt
      * @var    string
      * @see    getScript()
      */
-     var $script = '';
-     
-     
+    var $script = '';
+
+
     /**
      * The text encrypted - without any js
      *
@@ -68,25 +68,25 @@ class HTML_Crypt
      * @var    string
      * @see    cyrptText
      */
-     var $cryptString = '';
-     
-     
+    var $cryptString = '';
+
+
     /**
      * The number to offset the text by
      *
      * @access public
      * @var    int
      */
-     var $offset;
-     
+    var $offset;
+
     /**
      * Whether or not to use JS for encryption or simple html
      *
      * @access public
      * @var    int
      */
-     var $useJS; 
-         
+    var $useJS;
+
     /**
      * a preg expression for an <a href=mailto: ... tag
      *
@@ -94,16 +94,15 @@ class HTML_Crypt
      * @var    string
      */
      var $apreg;
-     
-         
+
     /**
      * a preg expression for an email
      *
      * @access public
      * @var    string
      */
-     var $emailpreg;
-     
+    var $emailpreg;
+
     // }}}
     // {{{ HTML_Crypt()
 
@@ -123,7 +122,7 @@ class HTML_Crypt
         $this->emailpreg = '[-_a-z0-9]+(\.[-_a-z0-9]+)*@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]{2,6}';
         $this->apreg = '\<[aA]\shref=[\"\']mailto:.*\<\/[aA]\>';
     }
-    
+
     // }}}
     // {{{ setText()
 
@@ -137,7 +136,7 @@ class HTML_Crypt
     {
         $this->text = $text;
     }
-    
+
     // }}}
     // {{{ addMailTo()
 
@@ -152,7 +151,7 @@ class HTML_Crypt
         $email = $this->text;
         $this->text = '<a href="mailto:'.$email.'">'.$email.'</a>';
     }
-    
+
     // }}}
     // {{{ cryptText()
 
@@ -164,7 +163,7 @@ class HTML_Crypt
     function cryptText()
     {
         $enc_string = '';
-        $length = strlen($this->text);        
+        $length = strlen($this->text);
 
         for ($i=0; $i < $length; $i++) {
             $current_chr = substr($this->text, $i, 1);
@@ -175,7 +174,7 @@ class HTML_Crypt
 
         $this->cryptString = $enc_string;
     }
-    
+
     // }}}
     // {{{ getScript()
 
@@ -199,7 +198,7 @@ class HTML_Crypt
         $this->script = $script;
         return $script;
     }
-    
+
     // }}}
     // {{{ output()
 
@@ -219,12 +218,12 @@ class HTML_Crypt
             echo str_replace(array('@', '.'), array(' ^at^ ', '-dot-'), $this->text);
         }
     }
-    
+
     function obStart()
     {
         ob_start();
     }
-    
+
     function obEnd()
     {
         $text = ob_get_contents();
@@ -232,7 +231,7 @@ class HTML_Crypt
         ob_end_clean();
         echo $text;
     }
-    
+
     function _fly($text)
     {
         $c = new HTML_Crypt($text[0]);

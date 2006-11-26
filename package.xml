@@ -24,28 +24,30 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <active>yes</active>
  </lead>
 
- <date>2004-02-15</date>
+ <date>2006-11-26</date>
  <time>00:00:00</time>
 
  <version>
-  <release>1.2.2</release>
-  <api>1.2.2</api>
+  <release>1.2.3dev</release>
+  <api>1.2.3dev</api>
  </version>
  <stability>
-  <release>stable</release>
-  <api>stable</api>
+  <release>devel</release>
+  <api>devel</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
 
  <notes>
-  Fix for bug #717
-  Fixed md5 error in previous release 1.2.1
+  - Adding example
  </notes>
 
  <contents>
   <dir name="/">
    <dir name="HTML">
     <file name="Crypt.php" role="php" />
+   </dir>
+   <dir name="examples">
+    <file name="simple.php" role="doc" />
    </dir>
   </dir>
  </contents>
