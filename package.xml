@@ -44,11 +44,13 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <contents>
   <dir name="/">
    <dir name="HTML">
-    <file name="Crypt.php"  role="php" />
+    <file name="Crypt.php" role="php" />
    </dir>
    <dir name="examples">
-    <file name="html.php"   role="doc" />
-    <file name="simple.php" role="doc" />
+    <file name="html.php"               role="doc" />
+    <file name="html-abc.php"           role="doc" />
+    <file name="html-nojavascript.php"  role="doc" />
+    <file name="simple.php"             role="doc" />
    </dir>
   </dir>
  </contents>

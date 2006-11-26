@@ -1,5 +1,4 @@
 <?php
-//
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
@@ -27,7 +26,7 @@
  *
  * This is very useful to prevent spam robots collecting email
  * addresses from your site, included is a method to add mailto
- * links to the text being generated
+ * links to the text being generated.
  *
  *  a basic example to encrypt an email address
  *  $c = new HTML_Crypt('yourname@emailaddress.com', 8);
@@ -116,7 +115,7 @@ class HTML_Crypt
      */
     function HTML_Crypt($text = '', $offset = 3, $JS = true)
     {
-        $this->offset = $offset;
+        $this->offset = $offset % 95;
         $this->text = $text;
         $this->script = '';
         $this->useJS = $JS;
@@ -171,11 +170,18 @@ class HTML_Crypt
 
         for ($i=0; $i < $length; $i++) {
             $current_chr = substr($this->text, $i, 1);
-            $inter = ord($current_chr)+$this->offset;
-            $enc_char =  chr($inter);
-            $enc_string .= ($enc_char == '\\' ? '\\\\' : $enc_char);
+            $num = ord($current_chr);
+            if ($num < 128) {
+                $inter = $num + $this->offset;
+                if ($inter > 127) {
+                    $inter = ($inter - 32) % 95 + 32;
+                }
+                $enc_char =  chr($inter);
+                $enc_string .= ($enc_char == '\\' ? '\\\\' : $enc_char);
+            } else {
+                $enc_string .= $current_chr;
+            }
         }
-
         return $enc_string;
     }
 
@@ -183,7 +189,8 @@ class HTML_Crypt
     // {{{ getScript()
 
     /**
-     * Returns the script html source including the function to decrypt it
+     * Returns the script html source including the function
+     * to decrypt it.
      *
      * @access public
      * @return string $script The javascript generated
@@ -198,7 +205,25 @@ class HTML_Crypt
         $letters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
         $rnd = $letters[array_rand($letters)] . md5(time());
         // the actual js (in one line to confuse)
-        $script = "<script language=\"JavaScript\" type=\"text/JavaScript\">var a,s,n;function $rnd(s){r='';for(i=0;i<s.length;i++){n=s.charCodeAt(i);if(n>=8364){n=128;}r+=String.fromCharCode(n-".$this->offset.");}return r;}a='".$this->cryptString."';document.write ($rnd(a));</script>";
+        $script = '<script language="JavaScript" type="text/JavaScript">'
+            . 'var a,s,n;'
+            . 'function ' . $rnd . '(s){'
+                . 'r="";'
+                . 'for(i=0;i<s.length;i++){'
+                    . 'n=s.charCodeAt(i);'
+                    . 'if(n<128){'
+                        . 'n=n-' . $this->offset . ';'
+                        . 'if(n<32){'
+                            . 'n=127+(n-32);'
+                        . '}'
+                    . '}'
+                    . 'r+=String.fromCharCode(n);'
+                . '}'
+                . 'return r;'
+            . '}'
+            . 'a="' . str_replace('"', '\\"', $this->cryptString) . '";'
+            . 'document.write(' . $rnd . '(a));'
+            . '</script>';
         $this->script = $script;
         return $script;
     }
@@ -213,13 +238,21 @@ class HTML_Crypt
      */
     function output()
     {
+        echo $this->getOutput();
+    }
+
+    // }}}
+    // {{{ getOutput()
+
+    function getOutput()
+    {
         if ($this->useJS) {
             if ($this->script == '') {
                 $this->getScript();
             }
-            echo $this->script;
+            return $this->script;
         } else {
-            echo str_replace(array('@', '.'), array(' ^at^ ', '-dot-'), $this->text);
+            return str_replace(array('@', '.'), array(' ^at^ ', '-dot-'), $this->text);
         }
     }
 
