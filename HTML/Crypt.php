@@ -110,8 +110,9 @@ class HTML_Crypt
      * Constructor
      *
      * @access public
-     * @param string $text  The text to encrypt
-     * @param int $offset  The offset used to encrypt/decrypt
+     * @param string    $text       The text to encrypt
+     * @param int       $offset     The offset used to encrypt/decrypt
+     * @param boolean   $JS         If javascript shall be used on the client side
      */
     function HTML_Crypt($text = '', $offset = 3, $JS = true)
     {
@@ -158,9 +159,12 @@ class HTML_Crypt
     /**
      * Encrypts the text
      *
+     * @param string    $text       Text to encrypt
+     * @param int       $offset     Offset to use for encryption
+     * @return string   Encrypted text
      * @access private
      */
-    function cryptText()
+    function cryptText($text, $offset)
     {
         $enc_string = '';
         $length = strlen($this->text);
@@ -172,7 +176,7 @@ class HTML_Crypt
             $enc_string .= ($enc_char == '\\' ? '\\\\' : $enc_char);
         }
 
-        $this->cryptString = $enc_string;
+        return $enc_string;
     }
 
     // }}}
@@ -187,7 +191,7 @@ class HTML_Crypt
     function getScript()
     {
         if ($this->cryptString == '' && $this->text != '') {
-            $this->cryptText();
+            $this->cryptString = $this->cryptText($this->text, $this->offset);
         }
         // get a random string to use as a function name
         srand((float) microtime() * 10000000);
@@ -218,6 +222,8 @@ class HTML_Crypt
             echo str_replace(array('@', '.'), array(' ^at^ ', '-dot-'), $this->text);
         }
     }
+
+    // }}}
 
     function obStart()
     {
