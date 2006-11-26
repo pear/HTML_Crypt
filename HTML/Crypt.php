@@ -205,7 +205,7 @@ class HTML_Crypt
         $letters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
         $rnd = $letters[array_rand($letters)] . md5(time());
         // the actual js (in one line to confuse)
-        $script = '<script language="JavaScript" type="text/JavaScript">'
+        $script = '<script language="JavaScript" type="text/javascript">/*<![CDATA[*/'
             . 'var a,s,n;'
             . 'function ' . $rnd . '(s){'
                 . 'r="";'
@@ -223,7 +223,7 @@ class HTML_Crypt
             . '}'
             . 'a="' . str_replace('"', '\\"', $this->cryptString) . '";'
             . 'document.write(' . $rnd . '(a));'
-            . '</script>';
+            . '//]]></script>';
         $this->script = $script;
         return $script;
     }
@@ -244,6 +244,11 @@ class HTML_Crypt
     // }}}
     // {{{ getOutput()
 
+    /**
+    *   Returns the encrypted text.
+    *
+    *   @return string  Encrypted text
+    */
     function getOutput()
     {
         if ($this->useJS) {
