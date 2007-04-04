@@ -146,15 +146,20 @@ class HTML_Crypt
     // {{{ addMailTo()
 
     /**
-     * Turns the text into a mailto link (make sure 
-     * the text only contains an email)
+     * Turns the text into a mailto link (make sure
+     * the text only contains an email).
      *
+     * This method has an optional parameter that allows you
+     * to customize the email tag and tag text. To get the email
+     * address included, use "%email%' as template variable.
+     *
+     * @param string $template  Mailto template string
      * @access public
      */
-    function addMailTo()
+    function addMailTo($template = '<a href="mailto:%email%">%email%</a>')
     {
         $email = $this->text;
-        $this->text = '<a href="mailto:'.$email.'">'.$email.'</a>';
+        $this->text = str_replace('%email%', $email, $template);
     }
 
     // }}}
