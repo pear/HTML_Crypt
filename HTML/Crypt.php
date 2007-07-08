@@ -38,9 +38,12 @@
  * $c->addMailTo();
  * $c->output();
  *
- * @author  Michael Dransfield <mike@blueroot.net>
- * @package HTML_Crypt
- * @version $Revision$
+ * @category HTML
+ * @package  HTML_Crypt
+ * @author   Michael Dransfield <mike@blueroot.net>
+ * @license  http://www.php.net/license  PHP License
+ * @version  $Revision$
+ * @link     http://pear.php.net/package/HTML_Crypt
  */
 class HTML_Crypt
 {
@@ -113,18 +116,20 @@ class HTML_Crypt
     /**
      * Constructor
      *
+     * @param string  $text   The text to encrypt
+     * @param int     $offset The offset used to encrypt/decrypt
+     * @param boolean $JS     If javascript shall be used on the client side
+     *
      * @access public
-     * @param string    $text       The text to encrypt
-     * @param int       $offset     The offset used to encrypt/decrypt
-     * @param boolean   $JS         If javascript shall be used on the client side
      */
     function HTML_Crypt($text = '', $offset = 3, $JS = true)
     {
-        $this->offset = $offset % 95;
-        $this->text = $text;
-        $this->script = '';
-        $this->useJS = $JS;
-        $this->emailpreg = '[-_a-z0-9]+(\.[-_a-z0-9]+)*@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]{2,6}';
+        $this->offset    = $offset % 95;
+        $this->text      = $text;
+        $this->script    = '';
+        $this->useJS     = $JS;
+        $this->emailpreg = '[-_a-z0-9]+(\.[-_a-z0-9]+)*'
+                         . '@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]{2,6}';
         $this->apreg = '\<[aA]\shref=[\"\']mailto:.*\<\/[aA]\>';
     }
 
@@ -134,8 +139,11 @@ class HTML_Crypt
     /**
      * Set name of the current realm
      *
+     * @param string $text The text to be encrypted
+     *
+     * @return void
+     *
      * @access public
-     * @param  string $text  The text to be encrypted
      */
     function setText($text)
     {
@@ -153,12 +161,15 @@ class HTML_Crypt
      * to customize the email tag and tag text. To get the email
      * address included, use "%email%' as template variable.
      *
-     * @param string $template  Mailto template string
+     * @param string $template Mailto template string
+     *
+     * @return void
+     *
      * @access public
      */
     function addMailTo($template = '<a href="mailto:%email%">%email%</a>')
     {
-        $email = $this->text;
+        $email      = $this->text;
         $this->text = str_replace('%email%', $email, $template);
     }
 
@@ -168,25 +179,26 @@ class HTML_Crypt
     /**
      * Encrypts the text
      *
-     * @param string    $text       Text to encrypt
-     * @param int       $offset     Offset to use for encryption
-     * @return string   Encrypted text
+     * @param string $text   Text to encrypt
+     * @param int    $offset Offset to use for encryption
+     *
+     * @return string Encrypted text
      * @access private
      */
     function cryptText($text, $offset)
     {
         $enc_string = '';
-        $length = strlen($this->text);
+        $length     = strlen($this->text);
 
         for ($i=0; $i < $length; $i++) {
             $current_chr = substr($this->text, $i, 1);
-            $num = ord($current_chr);
+            $num         = ord($current_chr);
             if ($num < 128) {
                 $inter = $num + $this->offset;
                 if ($inter > 127) {
                     $inter = ($inter - 32) % 95 + 32;
                 }
-                $enc_char =  chr($inter);
+                $enc_char    =  chr($inter);
                 $enc_string .= ($enc_char == '\\' ? '\\\\' : $enc_char);
             } else {
                 $enc_string .= $current_chr;
@@ -202,8 +214,9 @@ class HTML_Crypt
      * Returns the script html source including the function
      * to decrypt it.
      *
-     * @access public
      * @return string $script The javascript generated
+     *
+     * @access public
      */
     function getScript()
     {
@@ -212,10 +225,14 @@ class HTML_Crypt
         }
         // get a random string to use as a function name
         srand((float) microtime() * 10000000);
-        $letters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+        $letters = array(
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        );
         $rnd = $letters[array_rand($letters)] . md5(time());
         // the actual js (in one line to confuse)
-        $script = '<script language="JavaScript" type="text/javascript">/*<![CDATA[*/'
+        $script = '<script language="JavaScript" type="text/javascript">'
+            . '/*<![CDATA[*/'
             . 'var a,s,n;'
             . 'function ' . $rnd . '(s){'
                 . 'r="";'
@@ -244,6 +261,8 @@ class HTML_Crypt
     /**
      * Outputs the full JS to the browser
      *
+     * @return void
+     *
      * @access public
      */
     function output()
@@ -255,10 +274,10 @@ class HTML_Crypt
     // {{{ getOutput()
 
     /**
-    *   Returns the encrypted text.
-    *
-    *   @return string  Encrypted text
-    */
+     * Returns the encrypted text.
+     *
+     * @return string Encrypted text
+     */
     function getOutput()
     {
         if ($this->useJS) {
@@ -267,25 +286,51 @@ class HTML_Crypt
             }
             return $this->script;
         } else {
-            return str_replace(array('@', '.'), array(' ^at^ ', '-dot-'), $this->text);
+            return str_replace(
+                array('@', '.'),
+                array(' ^at^ ', '-dot-'),
+                $this->text
+            );
         }
     }
 
     // }}}
 
+    /**
+     * Starts output buffering.
+     *
+     * @return void
+     */
     function obStart()
     {
         ob_start();
     }
 
+    /**
+     * Ends output buffering and echoes the captured text.
+     *
+     * @return void
+     */
     function obEnd()
     {
         $text = ob_get_contents();
-        $text = preg_replace_callback("/{$this->apreg}/", array($this, '_fly'), $text);
+        $text = preg_replace_callback(
+            "/{$this->apreg}/",
+            array($this, '_fly'),
+            $text
+        );
         ob_end_clean();
         echo $text;
     }
 
+    /**
+     * Creates a new crypt object, sets the text on it
+     * and returns the script in one step.
+     *
+     * @param string $text Text to crypt
+     *
+     * @return string Crypted script
+     */
     function _fly($text)
     {
         $c = new HTML_Crypt($text[0]);
