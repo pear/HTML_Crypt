@@ -1,21 +1,17 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Michael Dransfield <mike@blueroot.net>                      |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+/**
+ * HTML_Crypt provides methods to encrypt text, which
+ * can be later be decrypted using JavaScript on the client side
+ *
+ * PHP version 4 and 5
+ *
+ * @category HTML
+ * @package  HTML_Crypt
+ * @author   Michael Dransfield <mike@blueroot.net>
+ * @license  http://www.php.net/license  PHP License
+ * @version  CVS: $Id$
+ * @link     http://pear.php.net/package/HTML_Crypt
+ */
 
 
 /**
@@ -42,7 +38,6 @@
  * @package  HTML_Crypt
  * @author   Michael Dransfield <mike@blueroot.net>
  * @license  http://www.php.net/license  PHP License
- * @version  $Revision$
  * @link     http://pear.php.net/package/HTML_Crypt
  */
 class HTML_Crypt
@@ -130,7 +125,7 @@ class HTML_Crypt
         $this->useJS     = $JS;
         $this->emailpreg = '[-_a-z0-9]+(\.[-_a-z0-9]+)*'
                          . '@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]{2,6}';
-        $this->apreg = '\<[aA]\shref=[\"\']mailto:.*\<\/[aA]\>';
+        $this->apreg     = '\<[aA]\shref=[\"\']mailto:.*\<\/[aA]\>';
     }
 
     // }}}
@@ -229,7 +224,8 @@ class HTML_Crypt
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         );
-        $rnd = $letters[array_rand($letters)] . md5(time());
+        $rnd     = $letters[array_rand($letters)] . md5(time());
+
         // the actual js (in one line to confuse)
         $script = '<script language="JavaScript" type="text/javascript">'
             . '/*<![CDATA[*/'
@@ -251,6 +247,7 @@ class HTML_Crypt
             . 'a="' . str_replace('"', '\\"', $this->cryptString) . '";'
             . 'document.write(' . $rnd . '(a));'
             . '//]]></script>';
+
         $this->script = $script;
         return $script;
     }
