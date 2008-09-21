@@ -218,8 +218,6 @@ class HTML_Crypt
         if ($this->cryptString == '' && $this->text != '') {
             $this->cryptString = $this->cryptText($this->text, $this->offset);
         }
-        // get a random string to use as a function name
-        srand((float) microtime() * 10000000);
         $letters = array(
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'

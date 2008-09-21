@@ -30,10 +30,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <active>no</active>
  </lead>
 
- <date>2007-04-04</date>
+ <date>2008-09-21</date>
 
  <version>
-  <release>1.3.2</release>
+  <release>1.3.3</release>
   <api>1.3.2</api>
  </version>
  <stability>
@@ -43,7 +43,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <license uri="http://www.php.net/license">PHP License</license>
 
  <notes>
- - Implementing request #10315: Template parameter to addMailTo()
+- Fix bug #14675: Security issue due to seeding random number generator
  </notes>
 
  <contents>
@@ -63,7 +63,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>4.4.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0b1</min>
@@ -73,6 +73,22 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <phprelease />
 
  <changelog>
+  <release>
+   <version>
+    <release>1.3.3</release>
+    <api>1.3.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-09-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix bug #14675: Security issue due to seeding random number generator
+   </notes>
+  </release>
+
   <release>
    <version>
     <release>1.3.2</release>
