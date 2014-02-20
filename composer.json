@@ -1,0 +1,36 @@
+{
+    "authors": [
+        {
+            "email": "cweiske@php.net",
+            "name": "Christian Weiske",
+            "role": "Lead"
+        },
+        {
+            "email": "mike@blueroot.net",
+            "name": "Mike Dransfield",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "HTML": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/HTML_Crypt",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP License",
+    "name": "pear/html_crypt",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTML_Crypt",
+        "source": "https://github.com/pear/HTML_Crypt"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
